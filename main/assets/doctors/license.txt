@@ -1,0 +1,11 @@
+Model Information:
+* title:	Hazmat (SCP Containment Breach)
+* source:	https://sketchfab.com/3d-models/hazmat-scp-containment-breach-6361b4474c9b4e65b88b23cda4640a7c
+* author:	SCP Games (https://sketchfab.com/SCPGames)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Hazmat (SCP Containment Breach)" (https://sketchfab.com/3d-models/hazmat-scp-containment-breach-6361b4474c9b4e65b88b23cda4640a7c) by SCP Games (https://sketchfab.com/SCPGames) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
