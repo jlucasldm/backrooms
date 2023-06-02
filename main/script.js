@@ -328,10 +328,26 @@ function render() {
 	renderer.clippingPlanes = [plane];
 	renderer.localClippingEnabled = true;
 
+	// Ajustando dinamicamente o tamanho da cena em função da janela
 	window.addEventListener('resize', function () {
 		rendSize.x = window.innerWidth * 0.9999;
 		rendSize.y = window.innerHeight * 0.9999;
 		renderer.setSize(rendSize.x, rendSize.y);
+
+		cameraExterna.aspect = window.innerWidth / window.innerHeight;
+		cameraExterna.updateProjectionMatrix();
+
+		cameraInterna.aspect = window.innerWidth / window.innerHeight;
+		cameraInterna.updateProjectionMatrix();
+
+		cameraGuiada1.aspect = window.innerWidth / window.innerHeight;
+		cameraGuiada1.updateProjectionMatrix();
+
+		cameraGuiada2.aspect = window.innerWidth / window.innerHeight;
+		cameraGuiada2.updateProjectionMatrix();
+
+		cameraGuiada3.aspect = window.innerWidth / window.innerHeight;
+		cameraGuiada3.updateProjectionMatrix();
 	});
 
 	requestAnimationFrame(render);
