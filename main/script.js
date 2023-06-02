@@ -6,12 +6,12 @@ TODO:
 import * as THREE from 'three';
 
 // Importando módulo para controle de entrada de parâmetros (GUI)
-import { GUI } from '../../Assets/scripts/three.js/examples/jsm/libs/lil-gui.module.min.js'
+import { GUI } from '../Assets/scripts/three.js/examples/jsm/libs/lil-gui.module.min.js'
 
 // Importando módulos para controle de câmera
-import { OrbitControls } from '../../Assets/scripts/three.js/examples/jsm/controls/OrbitControls.js';
-import { FirstPersonControls } from '../../Assets/scripts/three.js/examples/jsm/controls/FirstPersonControls.js';
-import { FlyControls } from '../../Assets/scripts/three.js/examples/jsm/controls/FlyControls.js';
+import { OrbitControls } from '../Assets/scripts/three.js/examples/jsm/controls/OrbitControls.js';
+import { FirstPersonControls } from '../Assets/scripts/three.js/examples/jsm/controls/FirstPersonControls.js';
+import { FlyControls } from '../Assets/scripts/three.js/examples/jsm/controls/FlyControls.js';
 
 // Importando módulos para carregamento de modelos
 import { GLTFLoader } from '../Assets/scripts/three.js/examples/jsm/loaders/GLTFLoader.js';
