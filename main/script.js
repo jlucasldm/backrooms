@@ -328,6 +328,12 @@ function render() {
 	renderer.clippingPlanes = [plane];
 	renderer.localClippingEnabled = true;
 
+	window.addEventListener('resize', function () {
+		rendSize.x = window.innerWidth * 0.9999;
+		rendSize.y = window.innerHeight * 0.9999;
+		renderer.setSize(rendSize.x, rendSize.y);
+	});
+
 	requestAnimationFrame(render);
 }
 
