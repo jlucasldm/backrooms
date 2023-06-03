@@ -20,7 +20,7 @@ Neste projeto foram utilizados 3 modelos 3D, sendo eles:
 
 1. **Backrooms**: Modelo da maquete virtual, contendo os corredores e salas que compõem o cenário. O modelo foi encontrado no site SketchFab[^1] e importado como .gltf.
 
-2. **Cientista**: Modelo do personagem que o usuário encontra durante a visita guiada. O modelo foi encontrado no site SketchFab[^2] e importado como .gltf. Duas instâncias desse modelo foram importadas, dando ao usuário a noção de escala do cenário.
+2. **Cientista**: Modelo do personagem que o usuário encontra durante a visita guiada. O modelo foi encontrado no site SketchFab[^2]. Duas instâncias desse modelo foram implementadas, dando ao usuário a noção de escala do cenário. Para animar os modelos, foi usado o site Mixamo[^4], onde adicionei uma animação aos respectivos cientistas. Após o processo de animação, o modelo foi exportado como .fbx e importado no projeto.
 
 3. **Coisa**: Modelo da criatura que o usuário encontra durante a visita interna. O modelo foi encontrado no site SketchFab[^3] e importado como .gltf. Uma instância desse modelo foi importada, propositalmente maior que os demais modelos para garantir a impressão de estranheza e imponência da criatura.
 

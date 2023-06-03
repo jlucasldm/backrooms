@@ -31,7 +31,9 @@ var scene,
 	camFirstPersonControl,
 	camFlyControl1,
 	camFlyControl2,
-	camFlyControl3;
+	camFlyControl3,
+	mixer1,
+	mixer2;
 
 // Instancializando o objeto GUI
 var gui = new GUI();
@@ -110,29 +112,58 @@ function main() {
 		ajusteCamera();
 	})
 
-	// Carregando o primeiro modelo do Cientista
-	loaderGltf.load('./assets/doctors/scene.gltf', function (gltf) {
-		gltf.scene.scale.set(0.027, 0.027, 0.027);
-		gltf.scene.position.x = 8.0;
-		gltf.scene.position.y = 0.1;
-		gltf.scene.position.z = -3.3;
-		gltf.scene.name = "doctor";
+	// Carregando o modelo em fbx do primeiro Cientista
+	const loaderFbx = new FBXLoader();
+	loaderFbx.load('./assets/doctors/hazmatLookingAround.fbx', function (fbx) {
+		fbx.scale.set(0.00027, 0.00027, 0.00027);
+		fbx.position.x = 7.0;
+		fbx.position.y = 0.1;
+		fbx.position.z = -3.5;
+		fbx.name = "doctor1";
 
-		scene.add(gltf.scene);
-		ajusteCamera();
+		// Aplicando textura
+		var textureLoader = new THREE.TextureLoader();
+		var texture = textureLoader.load('./assets/doctors/textures/PDX07_-_Default_baseColor.jpeg');
+		fbx.traverse(function (child) {
+			if (child.isMesh) {
+				child.material.map = texture;
+			}
+		});
+
+		// Aplicando animação
+		mixer1 = new THREE.AnimationMixer(fbx);
+		mixer1.timeScale = 1.0;
+		mixer1.loop = THREE.LoopPingPong;
+		mixer1.clipAction(fbx.animations[0]).setLoop(THREE.LoopPingPong).play();
+
+		scene.add(fbx);
 	});
 
-	// Carregando o segundo modelo do Cientista
-	loaderGltf.load('./assets/doctors/scene.gltf', function (gltf) {
-		gltf.scene.scale.set(0.027, 0.027, 0.027);
-		gltf.scene.position.x = -11.0;
-		gltf.scene.position.y = 0.1;
-		gltf.scene.position.z = 12.0;
-		gltf.scene.rotation.y = Math.PI / 1.5;
-		gltf.scene.name = "doctor";
+	// Carregando o modelo em fbx do segundo Cientista
+	loaderFbx.load('./assets/doctors/hazmatCoverToLook.fbx', function (fbx) {
+		fbx.scale.set(0.00027, 0.00027, 0.00027);
+		fbx.position.x = -10.7;
+		fbx.position.y = 0.1;
+		fbx.position.z = 10.3;
+		fbx.rotation.y = - Math.PI * 0.4;
+		fbx.name = "doctor2";
 
-		scene.add(gltf.scene);
-		ajusteCamera();
+		// Aplicando textura
+		var textureLoader = new THREE.TextureLoader();
+		var texture = textureLoader.load('./assets/doctors/textures/PDX07_-_Default_baseColor.jpeg');
+		fbx.traverse(function (child) {
+			if (child.isMesh) {
+				child.material.map = texture;
+			}
+		});
+
+		// Aplicando animação
+		mixer2 = new THREE.AnimationMixer(fbx);
+		mixer2.timeScale = 1.0;
+		mixer2.loop = THREE.LoopPingPong;
+		mixer2.clipAction(fbx.animations[0]).setLoop(THREE.LoopPingPong).play();
+
+		scene.add(fbx);
 	});
 
 	// Carregando o modelo da Coisa
@@ -143,8 +174,8 @@ function main() {
 		gltf.scene.position.y = 0.1;
 		gltf.scene.position.z = -1.0;
 		gltf.scene.rotation.y = (Math.PI / 2.0) + 0.9;
+		
 		scene.add(gltf.scene);
-		ajusteCamera();
 	});
 
 	// Configuranção do controle de câmera First Person, usada na visita interna
@@ -180,10 +211,10 @@ function main() {
 	camFlyControl2.rollSpeed = 0.0;
 	camFlyControl2.autoForward = false;
 	camFlyControl2.dragToLook = false;
-	cameraGuiada2.position.x = -12.0;
+	cameraGuiada2.position.x = -12.5;
 	cameraGuiada2.position.y = 1.8;
-	cameraGuiada2.position.z = 11.3;
-	cameraGuiada2.rotation.y = Math.PI * -0.4;
+	cameraGuiada2.position.z = 11.0;
+	cameraGuiada2.rotation.y = Math.PI * -0.5;
 
 	// Configuranção do controle de câmera Fly 2, usada na visita guiada
 	camFlyControl3 = new FlyControls(cameraGuiada3, renderer.domElement);
@@ -229,6 +260,7 @@ function ajusteCamera() {
 /// ***                                                          **
 /// ***************************************************************
 function render() {
+	var delta = clock.getDelta();
 
 	// Configurando os planos de corte
 	var xyPlane = new THREE.Plane(new THREE.Vector3(0, 0, 1), controls.alcanceCorte);
@@ -270,7 +302,7 @@ function render() {
 			plane = globalPlane;
 		}
 
-		camOrbitControl.update(clock.getDelta());
+		camOrbitControl.update(delta);
 		renderer.render(scene, cameraExterna);
 
 	} else if (controls.tipoVisita == 'Interna') {
@@ -297,7 +329,7 @@ function render() {
 		if (cameraInterna.position.z < -12.0) cameraInterna.position.z = -12.0;
 		if (cameraInterna.position.z > 12.0) cameraInterna.position.z = 12.0;
 
-		camFirstPersonControl.update(clock.getDelta());
+		camFirstPersonControl.update(delta);
 		cameraInterna.position.y = 1.8;
 		renderer.render(scene, cameraInterna);
 	} else {
@@ -313,13 +345,13 @@ function render() {
 
 		// Renderizando a cena de acordo com a câmera selecionada
 		if (controls.visitaGuiadaCamera == '1') {
-			camFlyControl1.update(clock.getDelta());
+			camFlyControl1.update(delta);
 			renderer.render(scene, cameraGuiada1);
 		} else if (controls.visitaGuiadaCamera == '2') {
-			camFlyControl2.update(clock.getDelta());
+			camFlyControl2.update(delta);
 			renderer.render(scene, cameraGuiada2);
 		} else {
-			camFlyControl3.update(clock.getDelta());
+			camFlyControl3.update(delta);
 			renderer.render(scene, cameraGuiada3);
 		}
 	}
@@ -350,14 +382,17 @@ function render() {
 		cameraGuiada3.updateProjectionMatrix();
 	});
 
+	// Atualizando as animações
+	if (mixer1) mixer1.update(delta);
+	if (mixer2) mixer2.update(delta);
+
+	// Chamando a função de renderização
 	requestAnimationFrame(render);
 }
 
 /// ***************************************************************
 /// ***                                                          **
 /// ***************************************************************
-
-
 function initGUI() {
 
 	// Configurando os controles da GUI
@@ -365,8 +400,8 @@ function initGUI() {
 		tipoVisita: 'Interna',
 		visitaGuiadaCamera: '1',
 		cortePlano: 'Nenhum',
-		alcanceCorte: 0.1,
-		rotacaoAutomatica: true,
+		alcanceCorte: 3.0,
+		rotacaoAutomatica: false,
 	};
 
 	// Adicionando os controles da GUI
